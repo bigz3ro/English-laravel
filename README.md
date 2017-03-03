@@ -1,4 +1,5 @@
 Data API :
+```json
 {
 	"success":true,
 	"status_code":200,
@@ -26,7 +27,7 @@ Data API :
 			"links":{"next_link":null,"last_link":null}},
 			"extra":[]
 }
-
+```
 With: 
 + success: status (success/fails)
 + status_code: status code( 200 : OK, 401,...)
