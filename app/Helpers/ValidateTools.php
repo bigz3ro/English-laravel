@@ -71,7 +71,9 @@ class ValidateTools {
 	* Check rules -> if error return ResTools error code -> else return false (through)
 	*/
 	public static function checkRules($input, $fieldDescriptions, $onlyFields=[], $excludedFields=[]){
+		
 		$rules = self::parseRules($fieldDescriptions)["rules"];
+		// print_r($rules);	
 		$dataRules = self::parseRules($fieldDescriptions)["dataRules"];
 		$finalRules = [];
 		$fields = Tools::getListKey($dataRules);
@@ -83,8 +85,10 @@ class ValidateTools {
 				array_push($finalRules, $field);
 			}
 		}
-		//Debus here
+		// print_r($finalRules);
+		//Debug here
 		$validator = Validator::make($input, self::getRules($rules, $finalRules));
+		// print_r($validator);
 		if($validator->fails()){
 			return ResTools::err(
 				$validator->errors(),
@@ -272,7 +276,7 @@ class ValidateTools {
 						$compactResult[$field] = $value;
 					}
 				}
-				// Tools::r($compactResult);
+				// r($compactResult);
 				return $compactResult;
 			}
 			foreach ($result as $key => $value) {
@@ -297,7 +301,7 @@ class ValidateTools {
 		$result = ["success" => true, "data" => null];
 		$errorCheck = self::checkRules($input, $fieldDescriptions, $onlyFields, $excludedFields);
 		
-		Tools::r($errorCheck);
+		// Tools::r($errorCheck);
 
 		if($errorCheck){
 			$result = $errorCheck;

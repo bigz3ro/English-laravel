@@ -1,6 +1,10 @@
 <?php
 namespace App\Helpers;
 
+use Mail;
+use Carbon\Carbon;
+
+
 class Tools {
 	public static function r($data){
 	    echo '<pre>';
@@ -66,6 +70,55 @@ class Tools {
 		// Tools::r($listKey);
 		return $listKey;
 	}
+	
+	public static function sendEmail($to, $subject, $template, $params=[], $attach=null){
+    if(config('app.app_env') === 'testing'){
+        return;
+    }
+    if(config('app.debug')){
+        Mail::send($template, $params, function($m) use($to, $subject, $template, $params, $attach) {
+            $from_email = \Config::get('app.from_email');
+            $app_name = \Config::get('app.app_name');
+            $m->from($from_email, $app_name);
+            $m->to($to)->subject($subject);
+            if($attach){
+                $m->attach($attach);
+            }
+        });
+    }else{
+        Mail::queue($template, $params, function($m) use($to, $subject, $template, $params, $attach) {
+            	$from_email = \Config::get('app.from_email');
+            	$app_name = \Config::get('app.app_name');
+            	$m->from($from_email, $app_name);
+            	$m->to($to)->subject($subject);
+            	if($attach){
+                	$m->attach($attach);
+            	}
+        	});
+    	}
+	}
+	public static function errMessage($err){
+		 # var_dump($err);die;
+        $errorMessage = $err->getMessage();
+        $errorLine = $err->getLine();
+        $errorFile = $err->getFile();
+        $message = $errorMessage.' => '.$errorFile.' [line '.$errorLine.']';
+        if(\Config::get('app.debug')){
+            return $message;
+        }
+        self::sendErrorReport($message);
+        return trans('messages.common_error');	
+	}
+	
+    public static function sendErrorReport($errors){
+        $subject = config('app.app_name').' - Error report';
+        $params = [
+            'errors' => print_r($errors, true)
+        ];
+        self::sendEmail(config('app.admin_email'), $subject, 'emails.errorReport', $params);
+    }
 
-
+    public static function nowDateTime(){
+        return Carbon::now();
+    }
 }

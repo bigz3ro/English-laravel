@@ -13,15 +13,16 @@ class CreateTokensTable extends Migration
      */
     public function up()
     {
-        Schema::create('tokens', function(Blueprint $table){
+        Schema::create('tokens', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('admin_id');
-            $table->string('fingerprint');
-            $table->string('role');
-            $table->string('role_type');
-            $table->string('token');
+            $table->string('fingerprint')->nullable();
+            $table->string('role')->nullable();
+            $table->string('role_type')->nullable();
+            $table->string('token')->nullable();
+            $table->integer('user_id')->nullable();
             $table->timestamps();
-        });   
+        });
     }
 
     /**

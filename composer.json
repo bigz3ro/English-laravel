@@ -6,13 +6,14 @@
     "type": "project",
     "require": {
         "php": ">=5.6.4",
+        "guzzlehttp/guzzle": "^6.2",
         "laravel/framework": "5.4.*",
         "laravel/tinker": "~1.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
         "mockery/mockery": "0.9.*",
-        "phpunit/phpunit": "~5.7"
+        "phpunit/phpunit": "~5.0"
     },
     "autoload": {
         "classmap": [
@@ -23,10 +24,10 @@
             "Module\\": "app/Modules/"
         }
     },
-    "autoload-dev": {
-        "psr-4": {
-            "Tests\\": "tests/"
-        }
+     "autoload-dev": {
+        "classmap": [
+            "tests/TestCase.php"
+        ]
     },
     "scripts": {
         "post-root-package-install": [

@@ -33,3 +33,10 @@ With:
 + status_code: status code( 200 : OK, 401,...)
 + message: message attach 
 + data: data response
+
+
+- Define global variale in Laravel in file config/app.php
+  Access config(app.nameFile.php);
+
+- Exception and Error
+	Even though Error and Exception sounds similar, its two different entities in PHP. Exception can be handled using Try...Catch...block but not Error. You can not handle PHP Error with Try...Catch... block. Any programming or execution error thrown by PHP is Error. Exception on the other hand is mostly used by user class/object, mostly for object oriented programming in PHP. You can use "throw" keyword to throw an Exception. However, you need to use trigger_error() method to generate Error.

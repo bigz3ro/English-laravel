@@ -22,6 +22,23 @@ class AdminController extends Controller{
 
 	}
 	public function authenticate(Request $request){
+		$onlyFields = [ 'email', 'password' ];
+		$checkRules = ValidateTools::checkRules(
+			$request->all(),
+			Admin::$fieldDescriptions,
+			$onlyFields
+		);
+		if($checkRules){
+			return response()->json($checkRules);
+		}
+		//Get input request and fingerprint 
+		$email = $request->email;
+		$password = $request->password;
+		$fingerprint = $request->header('Fingerprint');
+		// Get match email & password in DATABASE
+		$result = Admin::authenticate( $email, $password , $fingerprint);
+		// print_r($result);
+		return response()->json($result);
 		
 	}
 
@@ -30,8 +47,27 @@ class AdminController extends Controller{
 		$input = ValidateTools::validateData(
 			$request->all(),  Admin::$fieldDescriptions
 		);
-
-		return $input;
+		// print_r($input);
+		$result = Admin::addItem($input['success']?$input['data']:$input);
+		return $result;
 	}
+	public function resetPassword(Request $request){
+		$onlyFields = ['email', 'password'];
+		$checkRules = ValidateTools::checkRules(
+			$request->all(),
+			Admin::$fieldDescriptions,
+			$onlyFields
+		);
+		if($checkRules){
+			return $checkRules;
+		}
+		
+		$email = $request->input('email');
+		$password = $request->input('password');
+		$fingerprint = $request->header('Fingerprint');
+        $result = Admin::resetPassword($email, $password, $fingerprint);
+        return response()->json($result);
+	}
+
 }
 

@@ -1,8 +1,15 @@
 <?php
 
 return [
+    'admin_email' => 'tbson87@gmail.com',
+    'app_name' => env('APP_NAME', 'English'),
     'page_size' => 10,
- 
+    'random_size' => 24,
+    'client_admin_url' => env('APP_URL', '').'/admin/',
+    'app_env' => env('APP_ENV', 'local'),
+    'testing' => env('TESTING', false),
+    'from_email'  => env('MAIL_USERNAME', 'info@project.com'),
+    
     /*
     |--------------------------------------------------------------------------
     | Application Name
@@ -227,7 +234,6 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-
     ],
 
 ];
